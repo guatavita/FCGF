@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "fcgf"
+version = "0.0.1"
+description = "fcgf demo"
+authors = ["Bastien Rigaud <bastien.rig@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+numpy = "~=1.21.0"
+torch = { version = "~=1.12.1", source = "pytorch" }
+open3d = "0.16.0"
+torchvision = "^0.13.0"
+ninja = "^1.10.2.4"
+future-fstrings = "^1.2.0"
+tensorboard = "^2.7.0"
+easydict = "^1.10"
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu113"
+default = false
+secondary = true
+
