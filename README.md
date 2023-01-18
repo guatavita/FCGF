@@ -6,7 +6,7 @@ Extracting geometric features from 3D scans or point clouds is the first step in
 
 ## Setting up the requirements
 
-### Install CUDA 11.3 for Ubuntu 20.04
+### Install CUDA 11.3 for Ubuntu 20.04 (https://developer.nvidia.com/cuda-11.3.0-download-archive)
 
 ```bash
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
