@@ -4,6 +4,83 @@ Extracting geometric features from 3D scans or point clouds is the first step in
 
 [ICCV'19 Paper](https://node1.chrischoy.org/data/publications/fcgf/fcgf.pdf)
 
+## Setting up the requirements
+
+### Install CUDA 11.3 for Ubuntu 20.04
+
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/11.3.0/local_installers/cuda-repo-ubuntu2004-11-3-local_11.3.0-465.19.01-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2004-11-3-local_11.3.0-465.19.01-1_amd64.deb
+sudo apt-key add /var/cuda-repo-ubuntu2004-11-3-local/7fa2af80.pub
+sudo apt-get update
+sudo apt-get install cuda
+```
+
+### Clone the FCGF repository
+
+It is recommended to use a virtual python environment to set up the project requirements (e.g. pipenv, poetry). In this example, we will use poetry following this pyproject.toml:
+
+```python
+[tool.poetry]
+name = "fcgf"
+version = "0.0.1"
+description = "fcgf demo"
+authors = ["Bastien Rigaud <bastien.rig@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+numpy = "~=1.21.0"
+torch = { version = "~=1.12.1", source = "pytorch" }
+open3d = "0.16.0"
+torchvision = "^0.13.0"
+ninja = "^1.10.2.4"
+future-fstrings = "^1.2.0"
+tensorboard = "^2.7.0"
+easydict = "^1.10"
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu113"
+default = false
+secondary = true
+```
+
+### Install requirements (including MinkowskiEngine)
+
+```bash
+# Minkowski Engine needs openblas, be sure to install it on your system first
+sudo apt install libopenblas-dev
+# install virtual python env. requirements
+poetry install
+# open your poetry environment
+poetry shell
+# install MinkowskiEngine from your environment (laptop can freeze for a short time, one can use 'export MAX_JOBS=4')
+pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
+# exit the poetry env
+exit
+# export the LD_LIBRARY_PATH if you did not use CONDA the link can be broken...
+export LD_LIBRARY_PATH="/usr/local/cuda-11.3/lib64:$LD_LIBRARY_PATH"
+# you can add this to your ~/.bashrc
+```
+
+### Final check
+
+```bash
+poetry shell
+# run python to test import
+python
+```
+
+```python
+import torch
+torch.__version__ # should be '1.12.1+cu113'
+import MinkowskiEngine as ME
+ME.__version__ # should be '0.5.4'
+```
+
 ## News
 
 - 2020-10-02 Measure the FCGF speedup on v0.5 on [MinkowskiEngineBenchmark](https://github.com/chrischoy/MinkowskiEngineBenchmark). The speedup ranges from 2.7x to 7.7x depending on the batch size.
