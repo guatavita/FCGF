@@ -6,6 +6,20 @@ Extracting geometric features from 3D scans or point clouds is the first step in
 
 ## Setting up the requirements
 
+### :whale: Install Docker image
+
+The docker image needs `nvidia-runtime` by default in order to build the Minkowski Engine with CUDA. Please follow this [link](https://medium.com/@jgleeee/building-docker-images-that-require-nvidia-runtime-environment-1a23035a3a58) to correct the `daemon.json` ([explanation from nvidia-docker](https://github.com/NVIDIA/nvidia-docker/wiki/Advanced-topics#default-runtime))
+
+Build the inference docker image:
+```bash
+docker build . -f docker/Dockerfile -t fcgf_demo --network host 
+```
+
+Run the inference docker image:
+```bash
+docker run --gpus all --user $(id -u):$(id -g) -t -i fcgf_demo:latest
+```
+
 ### Install CUDA 11.3 for Ubuntu 20.04 (https://developer.nvidia.com/cuda-11.3.0-download-archive)
 
 ```bash
